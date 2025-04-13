@@ -94,6 +94,7 @@ func main() {
 	v1Router.HandleFunc("GET /healthz", handlerReadiness)
 	v1Router.HandleFunc("GET /err", handlerErr)
 	v1Router.HandleFunc("POST /create/user", pdb.handlerCreateUser)
+	v1Router.HandleFunc("GET /user/info", pdb.handlerGetUser)
 	router.Mount("/v1", v1Router)
 	//------------------------------
 

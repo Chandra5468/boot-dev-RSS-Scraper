@@ -1,6 +1,6 @@
 ./vscode
 # build file
-rssagg
+run
 # No need for vendor or There might be need for vendor to be pushed
 .env 
 # env may vary for production and staging
