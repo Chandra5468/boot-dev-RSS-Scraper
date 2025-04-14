@@ -23,7 +23,7 @@ import (
 		Aggregate data from RSS Feeds
 
 		RSS Feeds :
-			RSS Feeds are an easy way to stay up to date with your favorite websites, such as blogs or online magazines.
+			RSS(Really Simple Syndication) Feeds are an easy way to stay up to date with your favorite websites, such as blogs or online magazines.
 			If a site offers an RSS feed, you get notified whenever a post goes up, and then you can read a summary or the whole post
 
 		RSS Scraper :
@@ -94,7 +94,8 @@ func main() {
 	v1Router.HandleFunc("GET /healthz", handlerReadiness)
 	v1Router.HandleFunc("GET /err", handlerErr)
 	v1Router.HandleFunc("POST /create/user", pdb.handlerCreateUser)
-	v1Router.HandleFunc("GET /user/info", pdb.handlerGetUser)
+	v1Router.HandleFunc("GET /user/info", pdb.middlewareAuth(pdb.handlerGetUser))
+	v1Router.HandleFunc("POST /create/feeds", pdb.middlewareAuth(pdb.handlerCreateFeed))
 	router.Mount("/v1", v1Router)
 	//------------------------------
 
