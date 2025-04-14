@@ -96,6 +96,7 @@ func main() {
 	v1Router.HandleFunc("POST /create/user", pdb.handlerCreateUser)
 	v1Router.HandleFunc("GET /user/info", pdb.middlewareAuth(pdb.handlerGetUser))
 	v1Router.HandleFunc("POST /create/feeds", pdb.middlewareAuth(pdb.handlerCreateFeed))
+	v1Router.HandleFunc("GET /all/feeds", pdb.handlerGetFeeds)
 	router.Mount("/v1", v1Router)
 	//------------------------------
 
