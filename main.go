@@ -56,7 +56,12 @@ type dbStruct struct {
 }
 
 func main() {
-	fmt.Println("Namaste")
+	// fmt.Println("Namaste")
+	// feed, err := urlToFeed("https://wagslane.dev/index.xml")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// log.Println(feed)
 
 	godotenv.Load(".env")
 
@@ -84,6 +89,8 @@ func main() {
 	pdb := &dbStruct{
 		db: db,
 	}
+
+	go startScrapping(pdb, 10, time.Minute)
 
 	router := chi.NewRouter()
 
