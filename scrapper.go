@@ -37,10 +37,11 @@ func startScrapping(
 			feed := &Feed{}
 			err = sRows.Scan(&feed.ID, &feed.CreatedAt, &feed.UpdatedAt, &feed.Name, &feed.Url, &feed.UserId, &feed.LastFetchedAt)
 			if err != nil {
+				log.Println("Error at scanning rows-------", err)
 				wg.Done()
 				continue
 			} else {
-				go scrapeFeed(wg, feed)
+				go scrapeFeed(d, wg, feed)
 			}
 		}
 		wg.Wait()
@@ -52,8 +53,24 @@ func startScrapping(
 
 }
 
-func scrapeFeed(wg *sync.WaitGroup, feed *Feed) {
+func scrapeFeed(d *dbStruct, wg *sync.WaitGroup, feed *Feed) {
 	defer wg.Done()
 
 	// Mark feed as fetched
+	query := `update feeds set last_fetched_at = $1 where id = $2`
+	// query := `update feeds set last_fetched_at = $1 where id = $2 returning *`
+	updatedAt := time.Now().UTC()
+	// d.db.Query(query, &updatedAt, )
+	res, err := d.db.Exec(query, &updatedAt, &feed.ID)
+
+	if err != nil {
+		log.Println("Error while updating scrape feed", err.Error())
+		return
+	}
+	aff, err := res.RowsAffected()
+	if err != nil {
+		log.Println("Number of rows affected error...", err.Error())
+		return
+	}
+	log.Printf("Number of rows affected is %d", aff)
 }

@@ -56,12 +56,12 @@ type dbStruct struct {
 }
 
 func main() {
-	// fmt.Println("Namaste")
-	// feed, err := urlToFeed("https://wagslane.dev/index.xml")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// log.Println(feed)
+	fmt.Println("Namaste")
+	feed, err := urlToFeed("https://wagslane.dev/index.xml")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(feed)
 
 	godotenv.Load(".env")
 
