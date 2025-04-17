@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
@@ -15,13 +16,13 @@ type User struct {
 }
 
 type Feed struct {
-	ID            uuid.UUID   `json:"id"`
-	CreatedAt     time.Time   `json:"created_at"`
-	UpdatedAt     time.Time   `json:"updated_at"`
-	Name          string      `json:"name"`
-	Url           string      `json:"url"`
-	UserId        uuid.UUID   `json:"userId"`
-	LastFetchedAt interface{} `json:"lastFetchedAt"`
+	ID            uuid.UUID    `json:"id"`
+	CreatedAt     time.Time    `json:"created_at"`
+	UpdatedAt     time.Time    `json:"updated_at"`
+	Name          string       `json:"name"`
+	Url           string       `json:"url"`
+	UserId        uuid.UUID    `json:"userId"`
+	LastFetchedAt sql.NullTime `json:"lastFetchedAt"`
 }
 
 type FeedFollows struct {

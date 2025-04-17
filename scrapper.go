@@ -60,17 +60,27 @@ func scrapeFeed(d *dbStruct, wg *sync.WaitGroup, feed *Feed) {
 	query := `update feeds set last_fetched_at = $1 where id = $2`
 	// query := `update feeds set last_fetched_at = $1 where id = $2 returning *`
 	updatedAt := time.Now().UTC()
-	// d.db.Query(query, &updatedAt, )
-	res, err := d.db.Exec(query, &updatedAt, &feed.ID)
+	updatedFeed := &Feed{}
+	err := d.db.QueryRow(query, &updatedAt, &feed.ID).Scan(&updatedFeed.ID, &updatedFeed.CreatedAt, &updatedFeed.UpdatedAt, &updatedFeed.Name, &updatedFeed.Url, &updatedFeed.UserId, &updatedFeed.LastFetchedAt)
+
+	// err = rws.Scan(&updatedFeed.ID, &updatedFeed.CreatedAt, &updatedFeed.UpdatedAt, &updatedFeed.Name, &updatedFeed.Url, &updatedFeed.UserId, &updatedFeed.LastFetchedAt)
 
 	if err != nil {
-		log.Println("Error while updating scrape feed", err.Error())
+		log.Printf("Unable to get updated record of feed post reading %s", err.Error())
 		return
+	} else {
+		log.Println("This is updated document ", updatedFeed)
 	}
-	aff, err := res.RowsAffected()
-	if err != nil {
-		log.Println("Number of rows affected error...", err.Error())
-		return
-	}
-	log.Printf("Number of rows affected is %d", aff)
+	// res, err := d.db.Exec(query, &updatedAt, &feed.ID)
+
+	// if err != nil {
+	// 	log.Println("Error while updating scrape feed", err.Error())
+	// 	return
+	// }
+	// aff, err := res.RowsAffected()
+	// if err != nil {
+	// 	log.Println("Number of rows affected error...", err.Error())
+	// 	return
+	// }
+	// log.Printf("Number of rows affected is %d", aff)
 }
