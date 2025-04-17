@@ -17,6 +17,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// Continue from 2:20
+// Resource : https://youtu.be/dpXhDzgUSe4
 /*
 	Purpose of project :
 
